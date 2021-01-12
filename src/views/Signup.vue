@@ -25,102 +25,119 @@
             <div class="container">
               <div class="navbar-end">
                 <p class="navbar-item">
-                  Already a member?<a href="#" class="ml-1 link">Sign in</a>
+                  Already a member?<a href="/signin" class="ml-1 link">Sign in</a>
                 </p>
               </div>
             </div>
           </nav>
         </div>
         <div class="hero-body">
-          <form @submit.prevent="createUser">
-            <div class="container half-container">
-              <h1 class="title">Sign up to Dribbble</h1>
-              <div class="buttons are-medium">
-                <button class="button is-link">G Sign Up with Google</button>
-                <button class="button">t</button>
-              </div>
-              <div class="columns is-centered is-gapless is-vcentered">
-                <div class="column"><hr /></div>
-                <div class="column has-text-centered">Or</div>
-                <div class="column"><hr /></div>
-              </div>
-              <div class="columns">
-                <div class="column">
-                  <div class="field">
-                    <label class="label">Name</label>
-                    <div class="control">
-                      <validation-provider rules="required" v-slot="{ errors }">
-                        <input
-                          v-model="userForm.name"
-                          class="input test"
-                          type="text"
-                          placeholder=""
-                        />
-                        <span class="input-error">{{ errors[0] }}</span>
-                      </validation-provider>
+          <div class="columns is-centered">
+            <div class="column is-half p-6">
+              <form @submit.prevent="createUser">
+                <div class="container half-container">
+                  <h1 class="title">Sign up to Dribbble</h1>
+                  <div class="columns">
+                    <div class="field column is-10">
+                      <button class="button is-fullwidth is-link">
+                        G Sign Up with Google
+                      </button>
+                    </div>
+                    <div class="field column is-2">
+                      <button
+                        style="background-color: #f3f3f4"
+                        class="button is-pulled-right"
+                      >
+                        t
+                      </button>
                     </div>
                   </div>
-                </div>
-                <div class="column">
+                  <div class="columns is-vcentered">
+                    <div class="column"><hr /></div>
+                    <div style="max-width: 40px" class="column has-text-centered">Or</div>
+                    <div class="column"><hr /></div>
+                  </div>
+                  <div class="columns">
+                    <div class="field column">
+                      <label class="label">Name</label>
+                      <div class="control">
+                        <validation-provider rules="required" v-slot="{ errors }">
+                          <input
+                            v-model="userForm.name"
+                            class="input test"
+                            type="text"
+                            placeholder=""
+                          />
+                          <span class="input-error">{{ errors[0] }}</span>
+                        </validation-provider>
+                      </div>
+                    </div>
+
+                    <div class="field column">
+                      <label class="label">Username</label>
+                      <div class="control">
+                        <validation-provider rules="required" v-slot="{ errors }">
+                          <input
+                            v-model="userForm.username"
+                            class="input"
+                            type="text"
+                            placeholder=""
+                          />
+                          <span class="input-error">{{ errors[0] }}</span>
+                        </validation-provider>
+                      </div>
+                    </div>
+                  </div>
                   <div class="field">
-                    <label class="label">Username</label>
+                    <label class="label">Email</label>
                     <div class="control">
-                      <validation-provider rules="required" v-slot="{ errors }">
+                      <validation-provider rules="required|email" v-slot="{ errors }">
                         <input
-                          v-model="userForm.username"
+                          v-model="userForm.email"
                           class="input"
-                          type="text"
+                          type="email"
                           placeholder=""
                         />
                         <span class="input-error">{{ errors[0] }}</span>
                       </validation-provider>
                     </div>
                   </div>
+                  <div class="field">
+                    <label class="label">Password</label>
+                    <div class="control">
+                      <validation-provider rules="required|min:6" v-slot="{ errors }">
+                        <input
+                          v-model="userForm.password"
+                          class="input"
+                          type="password"
+                          placeholder="6+ characters"
+                        />
+                        <span class="input-error">{{ errors[0] }}</span>
+                      </validation-provider>
+                    </div>
+                  </div>
+                  <div class="field">
+                    <div class="control">
+                      <label class="checkbox">
+                        <input v-model="hasAcceptedTerms" type="checkbox" />
+                        Creating an account means you’re okay with our
+                        <a href="#">Terms of Service, Privacy Policy</a>, and our default
+                        <a href="#">Notification Settings.</a>
+                      </label>
+                    </div>
+                  </div>
+                  <button
+                    :disabled="!isEmpty"
+                    type="submit"
+                    style="background-color: #f082ac; max-width: 200px"
+                    class="button mt-5 has-text-white is-fullwidth has-text-weight-bold"
+                  >
+                    Create Account
+                  </button>
                 </div>
-              </div>
-              <div class="field">
-                <label class="label">Email</label>
-                <div class="control">
-                  <validation-provider rules="required|email" v-slot="{ errors }">
-                    <input
-                      v-model="userForm.email"
-                      class="input"
-                      type="email"
-                      placeholder=""
-                    />
-                    <span class="input-error">{{ errors[0] }}</span>
-                  </validation-provider>
-                </div>
-              </div>
-              <div class="field">
-                <label class="label">Password</label>
-                <div class="control">
-                  <validation-provider rules="required|min:6" v-slot="{ errors }">
-                    <input
-                      v-model="userForm.password"
-                      class="input"
-                      type="password"
-                      placeholder="6+ characters"
-                    />
-                    <span class="input-error">{{ errors[0] }}</span>
-                  </validation-provider>
-                </div>
-              </div>
-              <div class="field">
-                <div class="control">
-                  <label class="checkbox">
-                    <input v-model="hasAcceptedTerms" type="checkbox" />
-                    Creating an account means you’re okay with our
-                    <a href="#">Terms of Service, Privacy Policy</a>, and our default
-                    <a href="#">Notification Settings.</a>
-                  </label>
-                </div>
-              </div>
-              <button :disabled="!isEmpty" type="submit" class="button is-link">
-                Create Account
-              </button>
+              </form>
             </div>
-          </form>
+          </div>
         </div>
       </section>
     </div>
@@ -183,18 +200,13 @@ export default {
 </script>
 
 <style scoped>
-@media screen and (min-width: 800px) {
-  .half-container {
-    max-width: 45% !important;
-  }
-  .input-error {
-    color: red;
-  }
-  input[type="text"],
-  input[type="email"],
-  input[type="password"],
-  input[type="checkbox"] {
-    background-color: #f3f3f4;
-  }
+.input-error {
+  color: red;
+}
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="checkbox"] {
+  background-color: #f3f3f4;
 }
 </style>

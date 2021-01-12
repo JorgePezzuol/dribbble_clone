@@ -1,5 +1,5 @@
 <template>
-  <div class="preloader" v-if="loader.isLoading">
+  <div class="preloader" style="display: none" id="loading">
     <img src="@/assets/loader.gif" alt="loading" />
   </div>
 </template>

@@ -2,6 +2,7 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 
 import Signup from "../views/Signup.vue";
+import Signin from "../views/Signin.vue";
 import Home from "../views/Home";
 
 Vue.use(VueRouter);
@@ -17,6 +18,10 @@ export const router = new VueRouter({
     {
       path: "/home",
       component: Home,
+    },
+    {
+      path: "/signin",
+      component: Signin
     },
 
     {
@@ -36,8 +41,8 @@ router.beforeEach((to, from, next) => {
     return next("/signin");
   }
 
-  if (loggedIn && to.path == "/signup") {
-    return next("/Home");
+  if (loggedIn && to.path == "/signup" || loggedIn && to.path == "/signin") {
+    return next("/home");
   }
 
   next();

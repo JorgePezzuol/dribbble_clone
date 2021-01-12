@@ -21,18 +21,22 @@ const _axios = axios.create(config);
 
 _axios.interceptors.request.use(
   function(config) {
+    document.querySelector("#loading").style.display = 'block';
     return config;
   },
   function(error) {
+    document.querySelector("#loading").style.display = 'none';
     return Promise.reject(error);
   }
 );
 
 _axios.interceptors.response.use(
   function(response) {
+    document.querySelector("#loading").style.display = 'none';
     return response;
   },
   function(error) {
+    document.querySelector("#loading").style.display = 'none';
     return Promise.reject(error);
   }
 );

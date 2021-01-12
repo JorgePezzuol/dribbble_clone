@@ -10,7 +10,7 @@ const actions = {
     _axios
       .post("/api/user/create", JSON.stringify(user))
       .then((response) => {
-        context.commit("CREATE_OR_LOGIN_SUCCESS", response.data.user);
+        context.commit("CREATE_OR_LOGIN_SUCCESS", response.data);
         context.dispatch("alertModule/success", response.data.message, {
           root: true,
         });
@@ -25,7 +25,7 @@ const actions = {
     _axios
       .post("/api/user/login", JSON.stringify(user))
       .then((response) => {
-        context.commit("CREATE_OR_LOGIN_SUCCESS", response.data.user);
+        context.commit("CREATE_OR_LOGIN_SUCCESS", response.data);
         context.dispatch("alertModule/success", response.data.message, {
           root: true,
         });
