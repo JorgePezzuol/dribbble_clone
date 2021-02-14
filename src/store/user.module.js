@@ -1,6 +1,12 @@
 import _axios from "../plugins/axios";
 import { router } from "@/router";
 
+const getters = {
+  isLoggedIn(state) {
+    return state.user === {} ? false : true;
+  },
+};
+
 const state = {
   user: JSON.parse(localStorage.getItem("user")) ?? {},
 };
@@ -10,14 +16,13 @@ const actions = {
     _axios
       .post("/api/user/create", JSON.stringify(user))
       .then((response) => {
-        context.commit("CREATE_OR_LOGIN_SUCCESS", response.data);
+        context.commit("SET_USER", JSON.stringify(response.data));
         context.dispatch("alertModule/success", response.data.message, {
           root: true,
         });
         router.push("/home");
       })
       .catch((error) => {
-        context.commit("CREATE_OR_LOGIN_ERROR");
         context.dispatch("alertModule/error", error, { root: true });
       });
   },
@@ -25,30 +30,29 @@ const actions = {
     _axios
       .post("/api/user/login", JSON.stringify(user))
       .then((response) => {
-        context.commit("CREATE_OR_LOGIN_SUCCESS", response.data);
+        context.commit("SET_USER", JSON.stringify(response.data));
         context.dispatch("alertModule/success", response.data.message, {
           root: true,
         });
         router.push("/home");
       })
       .catch((error) => {
-        context.commit("CREATE_OR_LOGIN_ERROR");
         context.dispatch("alertModule/error", error, { root: true });
       });
   },
   logout(context) {
-    localStorage.removeItem("user");
-    context.commit("CREATE_OR_LOGIN_ERROR");
+    context.commit("LOGOUT");
   },
 };
 
 const mutations = {
-  CREATE_OR_LOGIN_SUCCESS(state, user) {
+  SET_USER(state, user) {
     state.user = user;
-    localStorage.setItem("user", JSON.stringify(user));
+    localStorage.setItem("user", user);
   },
-  CREATE_OR_LOGIN_ERROR(state) {
+  LOGOUT(state) {
     state.user = {};
+    localStorage.removeItem("user");
   },
 };
 
@@ -57,4 +61,5 @@ export const userModule = {
   state,
   actions,
   mutations,
+  getters
 };

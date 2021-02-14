@@ -1,8 +1,8 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 
-import Signup from "../views/Signup.vue";
-import Signin from "../views/Signin.vue";
+import Signup from "../components/auth/Signup.vue";
+import Signin from "../components/auth/Signin.vue";
 import Home from "../views/Home";
 
 Vue.use(VueRouter);
